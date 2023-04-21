@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Test create waypoints</title>
+    </head>
+    <body>
+        <form action = "{% url 'get_path_page' %}" method="post">
+            {% csrf_token %}
+            <label>Откуда</label>
+            <input name = start_point>
+            <label>Куда</label>
+            <input name = end_point>
+            <button type="submit">отправить</button>
+        </form>
+    </body>
+</html>

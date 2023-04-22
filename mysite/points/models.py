@@ -38,6 +38,8 @@ class Points(models.Model):
         hall = "1", _("коридор")
         preclass = "2", _("пре аудитория")
         classroom = "3", _("аудитория")
+        stairs = "4", _("лестница")
+        door = "5", _("входная дверь")
 
     def connections_default():
         return {"connections" : []}
@@ -49,8 +51,26 @@ class Points(models.Model):
     connections = models.JSONField(default=connections_default())
     floor = models.IntegerField()
 
-    
+    def __str__(self) -> str:
+        return f"{self.type} | {self.floor} | {self.relativeX} | {self.relativeY}"
+
     class Meta:
-        verbose_name = "Тип точки | Этаж"
+        verbose_name = "Тип точки | Этаж | X | y"
         verbose_name_plural = "Точки"
 
+class Pathes(models.Model):
+
+    def connections_default():
+        return {"connections" : []}
+    
+    start_point_id = models.IntegerField()
+    end_point_id = models.IntegerField()
+
+    path = models.JSONField(default=connections_default())
+
+    def __str__(self) -> str:
+        return f"{self.start_point_id} | {self.end_point_id}"
+
+    class Meta:
+        verbose_name = "Начальная точка ID | Конечная точка ID"
+        verbose_name_plural = "Маршруты"

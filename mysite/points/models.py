@@ -1,15 +1,23 @@
+from __future__ import annotations
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-import json
 
 
 class InstituesChoises(models.TextChoices):
-        STREET = "ST", _("Улица")
-        RTF = "RI", _("РИ")
-        INFO = "T", _("Т")
+    STREET = "ST", _("Улица")
+    RTF = "RI", _("РИ")
+    INFO = "T", _("Т")
+
+class PointType(models.IntegerChoices):
+    street = 0, _("улица")
+    hall = 1, _("коридор")
+    preclass = 2, _("пре аудитория")
+    classroom = 3, _("аудитория")
+    stairs = 4, _("лестница")
+    door = 5, _("входная дверь")
 
 # Create your models here.
-class Institues(models.Model):
+class Institue(models.Model):
     name = models.CharField(max_length=2, choices=InstituesChoises.choices, verbose_name="Название")
     x = models.IntegerField()
     y = models.IntegerField()
@@ -21,7 +29,7 @@ class Institues(models.Model):
         verbose_name = "Интститут"
         verbose_name_plural = "Интституты"
 
-class ClassRooms(models.Model):
+class ClassRoom(models.Model):
     number_of_class = models.CharField(max_length=10, verbose_name="Номер кабинета \n Пример : РИ120")
     id_of_point = models.IntegerField()
 
@@ -32,44 +40,50 @@ class ClassRooms(models.Model):
         verbose_name = "Номер аудитории"
         verbose_name_plural = "Аудитории"
 
-class Points(models.Model):
-    class PointType(models.TextChoices):
-        street = "0", _("улица")
-        hall = "1", _("коридор")
-        preclass = "2", _("пре аудитория")
-        classroom = "3", _("аудитория")
-        stairs = "4", _("лестница")
-        door = "5", _("входная дверь")
+class Point(models.Model):
+    def get_default_connections():
+        return {"conns":[]}
 
-    def connections_default():
-        return {"connections" : []}
-
+    id = models.AutoField(primary_key=True)
     institue = models.CharField(max_length=2, choices=InstituesChoises.choices, default=InstituesChoises.STREET)
-    type = models.CharField(max_length=1, choices=PointType.choices, default=PointType.hall)
+    type = models.IntegerField(choices=PointType.choices, default=PointType.hall)
     relativeX = models.IntegerField()
     relativeY = models.IntegerField()
-    connections = models.JSONField(default=connections_default())
     floor = models.IntegerField()
+    conns = models.JSONField(default=get_default_connections)
 
     def __str__(self) -> str:
-        return f"{self.type} | {self.floor} | {self.relativeX} | {self.relativeY}"
+        if self.type == PointType.classroom.value:
+            try:
+                return f"{ClassRoom.objects.get(id_of_point = self.id).number_of_class}"
+            except:
+                return f"{self.institue} | {self.floor} | {self.relativeX} | {self.relativeY}"
+        return f"{self.institue} | {self.floor} | {self.relativeX} | {self.relativeY}"
 
     class Meta:
-        verbose_name = "Тип точки | Этаж | X | y"
+        verbose_name = "Институт | Этаж | X | Y или Номер кабинета"
         verbose_name_plural = "Точки"
 
-class Pathes(models.Model):
+    def connect(self, other : Point):
+        if self.id not in other.conns['conns']:
+            other.conns['conns'].append(self.id)
+            other.save()
+        if other.id not in self.conns['conns']:
+            self.conns['conns'].append(other.id)
+            self.save()
 
-    def connections_default():
-        return {"connections" : []}
+class Path(models.Model):
     
+    def get_default_pathes(self):
+        return {"pathes":[]}
+
     start_point_id = models.IntegerField()
     end_point_id = models.IntegerField()
 
-    path = models.JSONField(default=connections_default())
+    path = models.JSONField(default=get_default_pathes)
 
     def __str__(self) -> str:
-        return f"{self.start_point_id} | {self.end_point_id}"
+        return f"{str(Point.objects.get(self.start_point_id))} | {str(Point.objects.get(self.end_point_id))}"
 
     class Meta:
         verbose_name = "Начальная точка ID | Конечная точка ID"

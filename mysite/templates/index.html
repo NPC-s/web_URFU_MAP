@@ -5,6 +5,8 @@
         <title>Test create waypoints</title>
     </head>
     <body>
+        {% load static %}
+        <img src="{% static 'images/IRIT2floor.png' %}">
         <form action = "{% url 'get_path_page' %}" method="post">
             {% csrf_token %}
             <label>Откуда</label>

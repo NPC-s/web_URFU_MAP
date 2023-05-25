@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link href="{% static 'css/reset.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/pathCreate.css' %}" rel="stylesheet">
+    <title>UrFU Map</title>
+</head>
+<body>
+    <script src="{% static "js/workWithFloor.js" %}"></script>
+    <div class="Page">
+        <div class="mainGrid">
+            <div id="menuRectangle">
+                <div id="titleMenuRectangle">
+                    <div class="Title">UrFU Map</div>
+                </div>
+                <a href="{% url "main_page" %}">
+                    <img id="backPointer" src='{% static "/images/backPointer.svg" %}'>
+                </a>
+                <form action="{% url 'floorWithPath' %}" method="post" id="pathCreateForm">
+                    
+                    <div id="pathCreateGrid">
+                        {% csrf_token %}
+                        <div id="rectangle">
+                            <p id="namePath">Постройте маршрут</p> 
+                        </div>
+                        <input name= start_point >
+                        <div class="vertical_dotted_line"></div>
+                        <input name= end_point >
+                        <button id="pathCreateButton" type="submit" onclick="saveFloor(2)">
+                            <div id="createPath">Построить маршрут</div>
+                        </button>
+                    </div>
+                </form>
+                
+            </div> 
+            
+            <div class="contentGrid">
+                <div id="nameRectangle">
+                    <div class="Title">Интерактивная карта ИРИТ-РТФ</div>
+                </div>
+                <img src='{% static "images/woman.png" %}' id="woman">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

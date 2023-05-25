@@ -1,0 +1,36 @@
+#pathCreateGrid{
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-rows: repeat(5, 1fr);
+    
+}
+
+#pathCreateButton{
+    width: 100%;
+    height: 100%;
+    background-color: #6a9bc4;
+    border: 0px;
+}  
+
+#createPath{
+    font-family: raleway;
+    font-size: 25px;
+}
+
+#pathCreateForm{
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+input{
+    width: 100%;
+    height: 100%;
+    font-size: 25px;
+    text-align: center;
+    background-color: #C8C5C5;
+    border: 0px;
+}

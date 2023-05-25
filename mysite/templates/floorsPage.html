@@ -1,7 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,24 +11,37 @@
     <title>UrFU Map</title>
 </head>
 <body>
+    <script src="/js/workWithFloor.js"></script>
     <div class="Page">
         <div class="mainGrid">
             <div id="menuRectangle">
                 <div id="titleMenuRectangle">
                     <div class="Title">UrFU Map</div>
                 </div>
-                <div id="buttonFlex">
-                <a href="{% url "floorsPage" %}">
-                    <img class="imgButton" src="{% static 'images/floorButton.svg' %}">
-                </a> 
-                <a href="{% url "pathCreatePage" %}">
-                    <img class="imgButton" src="{% static 'images/pathButton.svg' %}">
-                </a>  
+                <a href="{% url "main_page" %}">
+                    <img id="backPointer" src="{% static "/images/backPointer.svg" %}">
+                </a>
+                <div id="floorsGrid">
+                    <a href="./floor.html" class="ref" onclick="saveFloor(1)">
+                        <div class="button" >
+                            <p>Первый этаж</p>
+                        </div>
+                    </a>
+                    <a href="./floor.html" class="ref" onclick="saveFloor(2)">
+                        <div class="button">
+                            <p>Второй этаж</p>
+                        </div>
+                    </a>
+                    <a href="./floor.html" class="ref" onclick="saveFloor(3)">
+                        <div class="button">
+                            <p>Третий этаж</p>
+                        </div>
+                    </a>
                 </div>
             </div> 
             
             <div class="contentGrid">
-                <div id="rectangle">
+                <div id="nameRectangle">
                     <div class="Title">Интерактивная карта ИРИТ-РТФ</div>
                 </div>
                 <img src="{% static 'images/woman.png' %}" id="woman">

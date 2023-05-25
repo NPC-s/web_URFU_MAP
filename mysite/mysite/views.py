@@ -4,3 +4,9 @@ from points.points import create_points_by_pic, connect_point_one_type, connect_
 def main_page(request):
     return render(request, "./index.html")
 
+def floors_page(request):
+    return render(request, "./floorsPage.html")
+
+def create_page(request):
+    return render(request, "./pathCreatePage.html")
+

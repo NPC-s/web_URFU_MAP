@@ -16,10 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .views import main_page
+from .views import floors_page
+from .views import create_page
 from points.views import result_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", main_page),
-    path("get_path/", result_page, name = "get_path_page"),
+    path("", main_page, name = "main_page"),
+    path("floorsPage/", floors_page, name = "floorsPage"),
+    path("pathCreatePage/", create_page, name="pathCreatePage"),
+    path("floorWithPath/", result_page, name="floorWithPath")
 ]

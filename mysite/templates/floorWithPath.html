@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/reset.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/floor.css' %}" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <script src="{% static "js/workWithFloor.js" %}"></script>
+    <div id="Floor">
+        <a href="{% url "pathCreatePage" %}">
+            <img id="backPointer" src='{% static "/images/backPointer1.svg" %}'>
+        </a>
+            <img class="map" src='{% static "/images/floor1.svg" %}'>
+            <script>
+                var floor = localStorage.getItem("floor");
+                var p = {{path|safe}};
+                console.log(p);
+                printFloorWithPath(p);
+            </script>
+    </div>
+</body>
+</html>

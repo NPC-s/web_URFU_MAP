@@ -1,0 +1,16 @@
+#Floor{
+    height: 100vh;
+}
+
+.map{
+    height: 100%;
+    display: block;
+    margin: auto;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+#backPointer{
+    position: absolute;
+}

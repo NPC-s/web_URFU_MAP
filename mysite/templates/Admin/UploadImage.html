@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/reset.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/floor.css' %}" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <div class="Page" style="overflow: hidden;">
+        <div class="mainGrid">
+            <div id="menuRectangle">
+                <div id="titleMenuRectangle">
+                    <div class="Title">Существующие карты</div>
+                </div>
+                <div style="overflow-y: scroll;height: 90vh;">
+                    {% for image in images %}
+                    <div style = "margin-top: 5%;" id="image{{image.pk}}">
+                        <img src="{{image.image.url}}" style="max-width: 400px;
+                        left: 50%;
+                        top: 3%;
+                        position: relative;
+                        transform: translateX(-50%);
+                        cursor: pointer;" onclick="AddMenu({{image.pk}}, {{image.floor}}, '{{image.institue}}')"/>
+                        <p style = "transform: translateY(10px);">{{image.floor}} {{image.institue}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>
+                <div id="menu" style="display: none; background-color: white; border: 3px; border-color: black; width: 500px; position: absolute;">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <style>
+                            p{
+                                transform: translateY(0%);
+                                margin: 10px;
+                                font-size: 20px;
+                            }
+                        </style>
+                        <p>
+                            <label>Id</label>
+                            {{form_edit.pk}}
+                        </p>
+                        <p >
+                            <label for="do_select">Действие</label>
+                            {{form_edit.do}}
+                        </p>
+                        <div id="menu_edit" style="display: none;">
+                            <p>
+                                <label>Этаж</label>
+                                {{form_edit.floor}}
+                            </p>
+                            <p id="institue_select">
+                                <label>Институт:</label>
+                                {{form_edit.institue}}
+                            </p>
+                        </div>
+                        <button type="submit" style="position: relative; left: 50%; top: 5%; transform: translateX(-50%);">Подтвердить</button>
+                    </form>
+                </div>
+                <img id="image-preview" src="" alt="Preview Image" style="display: none;
+                                                                        max-width: 900px;
+                                                                        max-height: 600px;
+                                                                        position: relative;
+                                                                        left: 50%;
+                                                                        transform: translate(-50%, 10%);">
+                
+                <form method="post" enctype="multipart/form-data" style="top: 75%;
+                                                                        position: absolute;
+                                                                        left: 50%;">
+                    {% csrf_token %}
+                    {{ form_load.as_p }}
+                    <button type="submit" style = "position: relative;left: 50%;">Загрузить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('id_image').addEventListener('change', function(event) {
+          var input = event.target;
+          var preview = document.getElementById('image-preview');
+          preview.style.display = 'block';
+      
+          var reader = new FileReader();
+          reader.onload = function() {
+            preview.src = reader.result;
+          }
+          reader.readAsDataURL(input.files[0]);
+        });
+
+        document.getElementById("id_do").addEventListener("change", function(){
+            var selectElement = document.getElementById("id_do");
+            var selectedValue = selectElement.value;
+            var formElement = document.getElementById("menu_edit");
+            if (selectedValue == "update"){
+                formElement.style.display="block";
+            }
+            else{
+                formElement.style.display="none";
+            }
+        });
+
+        function AddMenu(imageId, imageFloor, imageInstitue){
+            var image = document.getElementById("image" + imageId);
+            var menu = document.getElementById("menu");
+            menu.style.display="block";
+            var pk_menu = document.getElementById("id_pk");
+            pk_menu.setAttribute("value", imageId);
+            var floor_menu = document.getElementById("id_floor");
+            floor_menu.setAttribute("value", imageFloor);
+            document.getElementById("id_institue").value = imageInstitue;
+        }
+      </script>
+</body>
+</html>

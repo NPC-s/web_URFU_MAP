@@ -1,11 +1,16 @@
 from django.shortcuts import render
-from points.points import create_points_by_pic, connect_point_one_type, connect_point_other_types
+from enums import INSTITUES
+from points.models import MapImages
 
 def main_page(request):
     return render(request, "./index.html")
 
 def floors_page(request):
     return render(request, "./floorsPage.html")
+
+def floor_page(request, institue : INSTITUES, floor : int):
+    image_data = MapImages.objects.get(institue = institue, floor = floor)
+    return render(request, "./floor.html", {"image_path" : image_data.image.name[7:] })
 
 def create_page(request):
     return render(request, "./pathCreatePage.html")

@@ -18,21 +18,22 @@
                 <div id="titleMenuRectangle">
                     <div class="Title">UrFU Map</div>
                 </div>
-                <a href="{% url "main_page" %}">
+                <a href="{% url "main_page"%}">
                     <img id="backPointer" src="{% static "/images/backPointer.svg" %}">
                 </a>
                 <div id="floorsGrid">
-                    <a href="./floor.html" class="ref" onclick="saveFloor(1)">
+                    <!-- Обязательно без пробелов ставить = like arg1=value1 not like arg1 = value! -->
+                    <a href="{% url "floorPage" institue='RI' floor=1 %}" class="ref" onclick="saveFloor(1)">
                         <div class="button" >
                             <p>Первый этаж</p>
                         </div>
                     </a>
-                    <a href="./floor.html" class="ref" onclick="saveFloor(2)">
+                    <a href="{% url "floorPage" institue='RI' floor=2 %}" class="ref" onclick="saveFloor(2)">
                         <div class="button">
                             <p>Второй этаж</p>
                         </div>
                     </a>
-                    <a href="./floor.html" class="ref" onclick="saveFloor(3)">
+                    <a href="{% url "floorPage" institue='RI' floor=3 %}" class="ref" onclick="saveFloor(3)">
                         <div class="button">
                             <p>Третий этаж</p>
                         </div>

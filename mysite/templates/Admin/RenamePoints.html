@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/reset.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/floor.css' %}" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function create_from(point_data){
+            var form = document.getElementById("formId");
+            form.style.display="block";
+            form.style.top = point_data.fields.relativeY + "px";
+            form.style.left = point_data.fields.relativeX + "px";
+            var input = document.getElementById("inputData")
+            if (point_data.name != 'N/A'){
+                input.setAttribute("value", point_data.name);
+            } else {
+                input.removeAttribute("value");
+            }
+
+            var inputId = document.getElementById("inputId")
+            inputId.setAttribute("value", point_data.pk)
+
+            input.addEventListener("keydown", function(event) {
+                debugger;
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    document.getElementById("SubmitBtn").click();
+                }
+                if (event.key === "Escape" || event.key === "Esc"){
+                    inputId.removeAttribute("value");
+                    form.style.display="none";
+                }
+                });
+        }
+        
+    </script>
+    <div id="Floor">
+        <a href="{% url "admin_index" %}">
+            <img id="backPointer" src='{% static "/images/backPointer1.svg" %}'>
+        </a>
+            <img src='{% static "/images/floor2.svg" %}'>
+            {% for classroom in points %}
+            {% if classroom.name != 'N/A' %}
+            <button style = "left : {{classroom.fields.relativeX}}px;
+                            top : {{classroom.fields.relativeY}}px;
+                            position : absolute;
+                            background-color : green;
+                            width : 16px;
+                            height : 16px;
+                            transform: translate(-50%, -50%);" onclick = "create_from({{classroom}})"></button>
+            {% else %}
+            <button style = "left : {{classroom.fields.relativeX}}px;
+                            top : {{classroom.fields.relativeY}}px;
+                            position : absolute;
+                            background-color : red;
+                            width : 16px;
+                            height : 16px;
+                            transform: translate(-50%, -50%);" onclick = "create_from({{classroom}})"></button>
+            {% endif %}
+            {% endfor %}
+            <div id="formId" style = "display:none; transform: translate(-50%, -50%); position : absolute;" >
+                <form action = "{% url 'admin_remane_point_name' %}" method = "post">
+                    {% csrf_token %}
+                    <input id="inputData" name = number_of_class placeholder = "Название аудитории">
+                    <input id="inputId" name = id_of_point hidden>
+                    <button id="SubmitBtn" type="submit" hidden></button>
+                </form>
+            </div>
+    </div>
+</body>
+</html>

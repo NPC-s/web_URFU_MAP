@@ -1,24 +1,10 @@
 from __future__ import annotations
 from django.db import models
-from django.utils.translation import gettext_lazy as _
-
-
-class InstituesChoises(models.TextChoices):
-    STREET = "ST", _("Улица")
-    RTF = "RI", _("РИ")
-    INFO = "T", _("Т")
-
-class PointType(models.IntegerChoices):
-    street = 0, _("улица")
-    hall = 1, _("коридор")
-    preclass = 2, _("пре аудитория")
-    classroom = 3, _("аудитория")
-    stairs = 4, _("лестница")
-    door = 5, _("входная дверь")
+from enums import InstituesChoices, PointChoices
 
 # Create your models here.
 class Institue(models.Model):
-    name = models.CharField(max_length=2, choices=InstituesChoises.choices, verbose_name="Название")
+    name = models.CharField(max_length=2, choices=InstituesChoices.choices, verbose_name="Название")
     x = models.IntegerField()
     y = models.IntegerField()
 
@@ -30,7 +16,7 @@ class Institue(models.Model):
         verbose_name_plural = "Интституты"
 
 class ClassRoom(models.Model):
-    number_of_class = models.CharField(max_length=10, verbose_name="Номер кабинета \n Пример : РИ120")
+    number_of_class = models.CharField(max_length=10, verbose_name="Номер кабинета \n Пример : РИ 120")
     id_of_point = models.IntegerField()
 
     def __str__(self) -> str:
@@ -41,23 +27,23 @@ class ClassRoom(models.Model):
         verbose_name_plural = "Аудитории"
 
 class Point(models.Model):
-    def get_default_connections():
+    def get_default_connections(self):
         return {"conns":[]}
 
     id = models.AutoField(primary_key=True)
-    institue = models.CharField(max_length=2, choices=InstituesChoises.choices, default=InstituesChoises.STREET)
-    type = models.IntegerField(choices=PointType.choices, default=PointType.hall)
+    institue = models.CharField(max_length=2, choices=InstituesChoices.choices, default=InstituesChoices.STREET)
+    type = models.IntegerField(choices=PointChoices.choices, default=PointChoices.HALL)
     relativeX = models.IntegerField()
     relativeY = models.IntegerField()
     floor = models.IntegerField()
     conns = models.JSONField(default=get_default_connections)
 
     def __str__(self) -> str:
-        if self.type == PointType.classroom.value:
+        if self.type == PointChoices.CLASSROOM.value:
             try:
                 return f"{ClassRoom.objects.get(id_of_point = self.id).number_of_class}"
             except:
-                return f"{self.institue} | {self.floor} | {self.relativeX} | {self.relativeY}"
+                pass
         return f"{self.institue} | {self.floor} | {self.relativeX} | {self.relativeY}"
 
     class Meta:
@@ -73,7 +59,6 @@ class Point(models.Model):
             self.save()
 
 class Path(models.Model):
-    
     def get_default_pathes(self):
         return {"pathes":[]}
 
@@ -86,5 +71,10 @@ class Path(models.Model):
         return f"{str(Point.objects.get(self.start_point_id))} | {str(Point.objects.get(self.end_point_id))}"
 
     class Meta:
-        verbose_name = "Начальная точка ID | Конечная точка ID"
+        verbose_name = "Начальная точка | Конечная точка"
         verbose_name_plural = "Маршруты"
+
+class MapImages(models.Model):
+    institue = models.CharField(max_length=2, choices=InstituesChoices.choices, default=InstituesChoices.STREET, verbose_name="Институт")
+    floor = models.IntegerField(verbose_name="Этаж")
+    image = models.ImageField(upload_to="static/images/maps/", verbose_name="Файл")

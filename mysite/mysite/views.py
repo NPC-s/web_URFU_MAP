@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from enums import INSTITUES
 from points.models import MapImages
+from points.points import get_all_classrooms
 
 def main_page(request):
     return render(request, "./index.html")
@@ -13,5 +14,5 @@ def floor_page(request, institue : INSTITUES, floor : int):
     return render(request, "./floor.html", {"image_path" : image_data.image.name[7:] })
 
 def create_page(request):
-    return render(request, "./pathCreatePage.html")
+    return render(request, "./pathCreatePage.html", {"classrooms" : get_all_classrooms("RI", 2)})
 

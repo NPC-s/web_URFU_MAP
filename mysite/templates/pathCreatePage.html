@@ -13,6 +13,7 @@
 </head>
 <body>
     <script src="{% static "js/workWithFloor.js" %}"></script>
+    <script src="{% static "js/creatingPath.js" %}"></script>
     <div class="Page">
         <div class="mainGrid">
             <div id="menuRectangle">
@@ -29,10 +30,14 @@
                         <div id="rectangle">
                             <p id="namePath">Постройте маршрут</p> 
                         </div>
-                        <input name= start_point >
+                        <input type="hidden" name="start_point"/>
+                        <input type="hidden" name="end_point"/>
+                        
+                        <input list="points" id="start" onchange="changeclassroominput(this.id, {{classrooms}})" placeholder="Введите отправную точку"/>
                         <div class="vertical_dotted_line"></div>
-                        <input name= end_point >
-                        <button id="pathCreateButton" type="submit" onclick="saveFloor(2)">
+                        <input list="points" id="end" onchange="changeclassroominput(this.id, {{classrooms}})" placeholder="Введите конечную точку">
+                        <input style="display: none;" type="submit" name="prevent-enter-submit" onclick="return false;">
+                        <button id="pathCreateButton" type="submit" onclick="saveFloor(2); return checksubmit(this.id, {{classrooms}})">
                             <div id="createPath">Построить маршрут</div>
                         </button>
                     </div>
@@ -48,5 +53,10 @@
             </div>
         </div>
     </div>
+    <datalist id="points">
+        {% for classroom in classrooms %}
+        <option>{{classroom.name}}</option>
+        {% endfor %}
+    </datalist>
 </body>
 </html>

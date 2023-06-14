@@ -75,18 +75,6 @@ textarea {
     resize: vertical;
 }
 
-/**
- * Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
- */
-
-audio,
-canvas,
-video {
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-    max-width: 100%;
-}
 
 /**
  * Prevent modern browsers from displaying `audio` without controls.

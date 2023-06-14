@@ -8,7 +8,7 @@ class MapImageForm(forms.ModelForm):
 
     def save(self, commit=True):
         instance = super().save(commit=False)
-        new_filename = f'{self.cleaned_data["institue"]}_{self.cleaned_data["floor"]}.jpg'
+        new_filename = f'{self.cleaned_data["institue"]}_{self.cleaned_data["floor"]}.png'
         instance.image.name = new_filename
 
         if commit:

@@ -8,15 +8,15 @@
     <link href="{% static 'css/reset.css' %}" rel="stylesheet">
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
     <link href="{% static 'css/floor.css' %}" rel="stylesheet">
-    <title>Document</title>
+    <title>Переименовка точек</title>
 </head>
 <body>
     <script>
         function create_from(point_data){
             var form = document.getElementById("formId");
             form.style.display="block";
-            form.style.top = point_data.fields.relativeY + "px";
-            form.style.left = point_data.fields.relativeX + "px";
+            form.style.top = point_data.y + "px";
+            form.style.left = point_data.x + "px";
             var input = document.getElementById("inputData")
             if (point_data.name != 'N/A'){
                 input.setAttribute("value", point_data.name);
@@ -28,7 +28,6 @@
             inputId.setAttribute("value", point_data.pk)
 
             input.addEventListener("keydown", function(event) {
-                debugger;
                 if (event.key === "Enter") {
                     event.preventDefault();
                     document.getElementById("SubmitBtn").click();
@@ -39,34 +38,56 @@
                 }
                 });
         }
+
+        function drawAllLines(points){
+            var src = document.getElementById("Floor");
+            var canvas = document.getElementById("canvas");
+            canvas.width = 1920;
+            canvas.height = 1080;
+            canvas.style.position = "absolute";
+        
+            const ctx = canvas.getContext("2d");
+        
+            for (var point of points){
+                for (var point2 of point.conns){
+                    ctx.moveTo(point.x, point.y);
+                    ctx.lineTo(point2.x, point2.y);
+                    ctx.stroke();
+                }
+            }
+        }
         
     </script>
     <div id="Floor">
         <a href="{% url "admin_index" %}">
             <img id="backPointer" src='{% static "/images/backPointer1.svg" %}'>
         </a>
-            <img src='{% static "/images/floor2.svg" %}'>
+        <button onclick="drawAllLines({{all_points}})" style="position: absolute; left: 10%; top: 2%;">
+            Отобразить соединения
+        </button>
+            <img src="{% static image_path %}">
+            <canvas style="top: 0%; MAX-WIDTH: 1920px;" id="canvas"></canvas>
             {% for classroom in points %}
-            {% if classroom.name != 'N/A' %}
-            <button style = "left : {{classroom.fields.relativeX}}px;
-                            top : {{classroom.fields.relativeY}}px;
-                            position : absolute;
-                            background-color : green;
-                            width : 16px;
-                            height : 16px;
-                            transform: translate(-50%, -50%);" onclick = "create_from({{classroom}})"></button>
-            {% else %}
-            <button style = "left : {{classroom.fields.relativeX}}px;
-                            top : {{classroom.fields.relativeY}}px;
-                            position : absolute;
-                            background-color : red;
-                            width : 16px;
-                            height : 16px;
-                            transform: translate(-50%, -50%);" onclick = "create_from({{classroom}})"></button>
-            {% endif %}
+                {% if classroom.name != 'N/A' %}
+                <button style = "left : {{classroom.x}}px;
+                                top : {{classroom.y}}px;
+                                position : absolute;
+                                background-color : green;
+                                width : 16px;
+                                height : 16px;
+                                transform: translate(-50%, -50%);" onclick = "create_from({{classroom}})"></button>
+                {% else %}
+                <button style = "left : {{classroom.x}}px;
+                                top : {{classroom.y}}px;
+                                position : absolute;
+                                background-color : red;
+                                width : 16px;
+                                height : 16px;
+                                transform: translate(-50%, -50%);" onclick = "create_from({{classroom}})"></button>
+                {% endif %}
             {% endfor %}
             <div id="formId" style = "display:none; transform: translate(-50%, -50%); position : absolute;" >
-                <form action = "{% url 'admin_remane_point_name' %}" method = "post">
+                <form action = "{% url 'admin_remane_point_name' institue=institue floor=floor %}" method = "post">
                     {% csrf_token %}
                     <input id="inputData" name = number_of_class placeholder = "Название аудитории">
                     <input id="inputId" name = id_of_point hidden>

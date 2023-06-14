@@ -12,17 +12,18 @@ class COLORS(enum.Enum):
     PRECLASSROOM = "#fa05f0"
     CLASSROOM = "#00ffff"
     STAIRS = "#00ff00"
-    DOOR = "#23234214134"
+    DOOR = "#ff1111"
 
 class InstituesChoices(models.TextChoices):
     STREET = "ST", _("Улица")
     RTF = "RI", _("РИ")
     INFO = "T", _("Т")
+    GUK = "GK", _("ГУК")
 
 class PointChoices(models.IntegerChoices):
     STREET = 0, _("улица")
     HALL = 1, _("коридор")
-    PRECLASS = 2, _("пре аудитория")
+    PRECLASS = 2, _("перед аудиторией")
     CLASSROOM = 3, _("аудитория")
     STAIRS = 4, _("лестница")
     DOOR = 5, _("входная дверь")

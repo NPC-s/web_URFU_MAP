@@ -33,11 +33,11 @@
                         <input type="hidden" name="start_point"/>
                         <input type="hidden" name="end_point"/>
                         
-                        <input list="points" id="start" onchange="changeclassroominput(this.id, {{classrooms}})" placeholder="Введите отправную точку"/>
+                        <input list="points" id="start" onchange="changeClassroomInput(this.id, {{classrooms}})" placeholder="Введите отправную точку"/>
                         <div class="vertical_dotted_line"></div>
-                        <input list="points" id="end" onchange="changeclassroominput(this.id, {{classrooms}})" placeholder="Введите конечную точку">
+                        <input list="points" id="end" onchange="changeClassroomInput(this.id, {{classrooms}})" placeholder="Введите конечную точку">
                         <input style="display: none;" type="submit" name="prevent-enter-submit" onclick="return false;">
-                        <button id="pathCreateButton" type="submit" onclick="saveFloor(2); return checksubmit(this.id, {{classrooms}})">
+                        <button id="pathCreateButton" type="submit" onclick="setStartMap(start.value, {{classrooms}}); return checkSubmit(this.id, {{classrooms}})">
                             <div id="createPath">Построить маршрут</div>
                         </button>
                     </div>

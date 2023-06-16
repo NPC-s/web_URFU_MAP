@@ -1,4 +1,4 @@
-function changeclassroominput(id, classrooms){
+function changeClassroomInput(id, classrooms){
     let elem = document.getElementById(id);
 
     for (let classroom of classrooms){
@@ -10,7 +10,7 @@ function changeclassroominput(id, classrooms){
     return false;
 }
 
-function checksubmit(id, classrooms){
+function checkSubmit(id, classrooms){
     let startValue = document.getElementById("start").value;
     let endValue = document.getElementById("end").value;
 
@@ -33,5 +33,15 @@ function checksubmit(id, classrooms){
 
         if (start.value != "" && end.value != "")
             return true;
+    }
+}
+
+function setStartMap(value, classrooms){
+    debugger;
+    for (let classroom of classrooms){
+        if (value == classroom.name){
+            saveFloorAndInstitue(classroom.floor, classroom.institue);
+            break;
+        }
     }
 }

@@ -16,13 +16,27 @@
             <a href="{% url "pathCreatePage" %}">
                 <img id="backPointer" src="{% static 'images/backPointer1.svg' %}">
             </a>
-            <img class="map" src="{% static 'images/floor1.svg' %}">
+            <img id="currentMap" class="map" src="/static/images/maps/RI_1.png">
+            <div class="buttonsGrid">
+                <button class="button" id="1" name="button" onclick="saveFloorAndInstitue(this.id, getInstitue()), location.reload()">
+                    1
+                </button>
+                <button class="button" id="2" name="button" onclick="saveFloorAndInstitue(this.id, getInstitue()), location.reload()">
+                    2
+                </button>
+                <button class="button" id="3" name="button" onclick="saveFloorAndInstitue(this.id, getInstitue()), location.reload()">
+                    3
+                </button>
+            </div>
             <script>
-                var floor = localStorage.getItem("floor");
-                var p = {{path|safe}};
-                console.log(p);
-                printFloorWithPath(p);
+                let p = {{path|safe}};
+                let inst= getInstitue();
+                let floor = getFloor();
+                currentMap.src = `/static/images/maps/${inst}_${floor}.png`
+                changeButtonsColor();
+                printPath(p);
             </script>
+            
         </div>
     </body>
 </html>

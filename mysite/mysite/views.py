@@ -24,4 +24,4 @@ def create_page(request):
             p_json['name'] = classroom.number_of_class
         else:
             p_json["name"] = "Вход"
-    return render(request, "./pathCreatePage.html", {"classrooms" : [c.as_json(False) for c in points]})
+    return render(request, "./pathCreatePage.html", {"classrooms" : points_json})

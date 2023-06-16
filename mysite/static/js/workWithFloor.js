@@ -1,22 +1,27 @@
-function saveFloor(number){
-    localStorage.setItem("floor", number);
+function saveFloorAndInstitue(floor, institue){
+    debugger;
+    localStorage.setItem("floor", floor);
+    localStorage.setItem("institue", institue);
 }
 
 function setStartFloor(){
     localStorage.setItem("floor", 2);
+    localStorage.setItem("institue", "RI")
 }
 
 function getFloor(){
-    var img = document.createElement("img");    
-    var floor = localStorage.getItem("floor");
-    img.src = "../images/floor" + floor + ".svg";
-    img.className = "map";
-    return img;
+    return localStorage.getItem("floor");
 }
 
-function printFloorWithPath(path){
+function getInstitue(){
+    return localStorage.getItem("institue");
+}
+
+function printPath(path){
+    debugger;
     var src = document.getElementById("Floor");
-    var floor = localStorage.getItem("floor");
+    var floor = getFloor();
+    var institue = getInstitue();
     var canvas = document.createElement("canvas");
     canvas.width = 1920;
     canvas.height = 1080;
@@ -26,20 +31,19 @@ function printFloorWithPath(path){
     var isFirstPointFinded = false;
 
     for (var point of path){
-        var fields = point.fields;
-        var isCurrentFloor = fields.floor == floor;
+        var isCurrentPoint = point.floor == floor && point.institue == institue;
 
-        if (isCurrentFloor && !isFirstPointFinded){
+        if (isCurrentPoint && !isFirstPointFinded){
             isFirstPointFinded = true;
-            ctx.moveTo(fields.relativeX, fields.relativeY);
+            ctx.moveTo(point.x, point.y);
             continue;
         }
 
-        if (!isCurrentFloor && isFirstPointFinded) break;
+        if (!isCurrentPoint && isFirstPointFinded) break;
 
-        if (!isCurrentFloor) continue;
+        if (!isCurrentPoint) continue;
         
-        ctx.lineTo(fields.relativeX, fields.relativeY);
+        ctx.lineTo(point.x, point.y);
     }
 
     ctx.lineWidth = 10;
@@ -52,4 +56,15 @@ function printFloorWithPath(path){
 
 function getRandomNumber(min, max) {
     return Math.random() * (max - min) + min
-  }
+}
+
+function changeButtonsColor(){
+    debugger;
+    let floor = getFloor();
+    let buttons = document.getElementsByName("button");
+
+    for (let button of buttons)
+        if (button.id == floor)
+            button.style.background = '#8cadde';
+        
+}

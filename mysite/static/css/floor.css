@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'opensans';
+    src: url(../fonts/OpenSans-Regular.ttf) format("truetype");
+}
+
 #Floor{
     height: 100vh;
 }
@@ -7,10 +12,31 @@
     display: block;
     margin: auto;
     position: absolute;
+    top: 0%;
     left: 50%;
     transform: translate(-50%, 0);
 }
 
 #backPointer{
     position: absolute;
+}
+
+.buttonsGrid{
+    display: grid;
+    width: 6%;
+    position: relative;
+    left: 94%;
+    grid-gap: 8px;
+    justify-items: center;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.button{
+    width: 95%;
+    aspect-ratio: 1/1;
+    background-color: #D9D9D9;
+    border: 3px solid blueviolet;
+    font-family: 'opensans';
+    font-size: 40px;
 }

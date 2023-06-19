@@ -3,6 +3,8 @@ from points.models import Point
 import queue
 from points.models import Point, ClassRoom
 from enums import INSTITUES
+from dataclasses import dataclass, field
+import math
 
 
 
@@ -61,16 +63,23 @@ class SinglyLinkedList():
         self.point = point
         self.prev = prev
 
+@dataclass(order=True)
+class PrioritizedSinglyLinkedList:
+    priority: int
+    item: SinglyLinkedList=field(compare=False)
+
 def create_path(start : Point, end : Point):
     visitedIds : set[int] = set()
 
-    ways : queue.Queue[SinglyLinkedList] = queue.Queue()
-    ways.put(SinglyLinkedList(start, None))
+    ways = queue.PriorityQueue()
+    ways.put(PrioritizedSinglyLinkedList(0, SinglyLinkedList(start, None)))
 
     shortestWay = None
 
     while not ways.empty():
-        way = ways.get()
+        way_raw = ways.get()
+        way_cost = way_raw.priority
+        way = way_raw.item
 
         for p in way.point.conns['conns']:
             if p['pk'] in visitedIds:
@@ -83,7 +92,8 @@ def create_path(start : Point, end : Point):
                 way.point.save()
                 continue
             newWay = SinglyLinkedList(newPoint, way)
-            ways.put(newWay)
+            distance = int(math.sqrt((newPoint.relativeX - way.point.relativeX) ** 2 + (newPoint.relativeY- way.point.relativeX) ** 2))
+            ways.put(PrioritizedSinglyLinkedList(way_cost + distance, newWay))
             if p['pk'] == end.id:
                 shortestWay = newWay
                 break

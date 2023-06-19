@@ -58,13 +58,19 @@ function getRandomNumber(min, max) {
     return Math.random() * (max - min) + min
 }
 
-function changeButtonsColor(){
+function changeButtonsColor(startPoint, lastPoint){
     debugger;
     let floor = getFloor();
     let buttons = document.getElementsByName("button");
 
-    for (let button of buttons)
+    for (let button of buttons){
+        if (button.id == lastPoint.floor)
+            button.style.background = '#f2505b';
+
+        if (button.id == startPoint.floor)
+            button.style.background = '#55e08d';
+
         if (button.id == floor)
             button.style.background = '#8cadde';
-        
+    }
 }

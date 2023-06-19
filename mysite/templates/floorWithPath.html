@@ -40,7 +40,7 @@
                 let inst= getInstitue();
                 let floor = getFloor();
                 currentMap.src = `/static/images/maps/${inst}_${floor}.png`
-                changeButtonsColor();
+                changeButtonsColor(p[0], p.at(-1));
                 printPath(p);
             </script>
             

@@ -21,6 +21,9 @@ def create_page(request):
     for p_json in points_json:
         classroom = get_classroom(int(p_json['pk']))
         if classroom:
+            if classroom.number_of_class == "N/A":
+                points_json.remove(p_json)
+                continue
             p_json['name'] = classroom.number_of_class
         else:
             p_json["name"] = "Вход"

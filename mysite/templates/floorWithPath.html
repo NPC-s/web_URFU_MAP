@@ -5,10 +5,11 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/icon.ico' %}"/>
         <link href="{% static 'css/reset.css' %}" rel="stylesheet">
         <link href="{% static 'css/main.css' %}" rel="stylesheet">
         <link href="{% static 'css/floor.css' %}" rel="stylesheet">
-        <title>Document</title>
+        <title>UrFU Map</title>
     </head>
     <body>
         <script src="{% static "js/workWithFloor.js" %}"></script>
@@ -18,14 +19,20 @@
             </a>
             <img id="currentMap" class="map" src="/static/images/maps/RI_1.png">
             <div class="buttonsGrid">
-                <button class="button" id="1" name="button" onclick="saveFloorAndInstitue(this.id, getInstitue()), location.reload()">
-                    1
-                </button>
-                <button class="button" id="2" name="button" onclick="saveFloorAndInstitue(this.id, getInstitue()), location.reload()">
-                    2
+                <button class="button" id="4" name="button" onclick="saveFloorAndInstitue(this.id, getInstitue()), location.reload()">
+                    4
                 </button>
                 <button class="button" id="3" name="button" onclick="saveFloorAndInstitue(this.id, getInstitue()), location.reload()">
                     3
+                </button>
+                 <button class="button" id="2" name="button" onclick="saveFloorAndInstitue(this.id, getInstitue()), location.reload()">
+                    2
+                </button>
+                <button class="button" id="1" name="button" onclick="saveFloorAndInstitue(this.id, getInstitue()), location.reload()">
+                    1
+                </button>
+                <button class="button" id="0" name="button" onclick="saveFloorAndInstitue(this.id, getInstitue()), location.reload()">
+                    0
                 </button>
             </div>
             <script>
